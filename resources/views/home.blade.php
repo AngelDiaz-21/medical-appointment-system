@@ -1,3 +1,5 @@
+{{-- Esta pagina se muestra al haber iniciado sesión --}}
+
 @extends('layouts.panel')
 
 @section('content')

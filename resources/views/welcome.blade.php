@@ -1,3 +1,4 @@
+{{-- Pagina de inicio (principal) --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

@@ -13,12 +13,24 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        // Esta tabla de aqui nos permite almacenar la informacion basica de cualquier tipo de usuario ('admin', 'patient', 'doctor')
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->string('dni');
+
+            // Le ponemos nullable para que estos campos sean opcionales
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+            
+            // Este campo nos va a permitir decidir que informacion mostrar a un usuario a partir de su rol
+            $table->string('role'); // 'admin', 'patient', 'doctor'
+
+
             $table->rememberToken();
             $table->timestamps();
         });
