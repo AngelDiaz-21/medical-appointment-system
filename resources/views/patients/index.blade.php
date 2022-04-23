@@ -6,10 +6,10 @@
     <div class="card-header border-0">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="mb-0">Médicos</h3>
+                <h3 class="mb-0">Pacientes</h3>
             </div>
             <div class="col text-right">
-                <a href="{{ url('doctors/create') }}" class="btn btn-sm btn-success">Nuevo médico</a>
+                <a href="{{ url('patients/create') }}" class="btn btn-sm btn-success">Nuevo paciente</a>
             </div>
         </div>
     </div>
@@ -37,19 +37,19 @@
             </thead>
             <tbody>
                 <!-- Aqui vamos a iterar. Para cada una de las especialidades (doctors) las vamos a tratar como doctor  -->
-                @foreach ($doctors as $doctor)
+                @foreach ($patients as $patient)
                 <tr>
-                    <th scope="row">{{ $doctor->name }}</th>
-                    <td>{{ $doctor->email }}</td>
-                    {{-- <td>{{ $doctor->dni }}</td> --}}
-                    <td>{{ $doctor->phone }}</td>
+                    <th scope="row">{{ $patient->name }}</th>
+                    <td>{{ $patient->email }}</td>
+                    {{-- <td>{{ $patient->dni }}</td> --}}
+                    <td>{{ $patient->phone }}</td>
                     <td>
 
-                        <form action="{{ url('/doctors/' .$doctor->id) }}" method="POST">
+                        <form action="{{ url('/patients/' .$patient->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             {{-- Tenemos que poner el id, como es codigo PHP concatenamos una variable e imprimir el id de cada una de las especialidades de las tablas--}}
-                            <a href="{{ url('/doctors/' .$doctor->id. '/edit') }}" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="{{ url('/patients/' .$patient->id. '/edit') }}" class="btn btn-sm btn-primary">Editar</a>
                             
                             <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
                         </form>

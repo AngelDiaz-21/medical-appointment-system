@@ -17,6 +17,7 @@
     <div class="table-responsive">
         {{-- Para mostrar la notification de agregado correctamente --}}
         {{-- Decimos que si tenemos una variable de sesion llamada notification vamos a mostrar su valor dentro del alert   --}}
+        {{-- También se puede usar una ventana modal para mostrar la alerta --}}
         <div class="card-body">
             @if (session('notification'))
             <div class="alert alert-success" role="alert">

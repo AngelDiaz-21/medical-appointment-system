@@ -40,7 +40,10 @@ public function __construct(){
         // El modelo fue creado y se encuentra en models
         $specialties = Specialty::all();
         // Para pasar esta informacion ponemos un segundo parametro y dentro de la funcion compact indicamos el nombre de las variables que queremos pasar 
+        // Inyectamos variables directamente por eso no es necesario el session en la vista view
         return view('specialties.index', compact('specialties'));
+
+        // Un return view devuelve una vista y podemos inyectar variables directamente
     }
 
     public function create(){
@@ -70,6 +73,7 @@ public function __construct(){
 
         // O podemos hacer un redirect y mandar al usuario para que vea la lista de especialidades
         // Al momento de registrar un nuevo dato vamos a mostrar una notificacion de que se ha agregado. Notification es una variable y va a contener un mensaje de notificacion que se va a mostrar en la vista.
+        // Inyectamos variables indirectamente, por eso al usar notification en la vista se creará como una variable de session (sesión)
         $notification = 'La especialidad se ha registrado correctamente.';
         return redirect('/specialties')->with(compact('notification'));
 
@@ -82,14 +86,15 @@ public function __construct(){
         return view('specialties.edit', compact('specialty'));
     }
 
+    // Se añade un parametro más, el objeto specialty que queremos editar 
     public function update( Request $request, Specialty $specialty){
         // Para ejecutar la validaciones
         $this->performValidation($request);
 
-        // Vamos a usar el objeto $specialty que el metodo update recibe
+        // Vamos a usar el objeto $specialty que el metodo update recibe. No es una nueva especialidad, es una especialidad ya existente ya que en el controlador estamos mandando el ID.
         $specialty->name = $request->input('name');
         $specialty->description = $request->input('description');
-        $specialty->save(); // UPDATE
+        $specialty->save(); // UPDATE (Actualización)
 
         $notification = 'La especialidad se ha actualizado correctamente.';
         return redirect('/specialties')->with(compact('notification'));

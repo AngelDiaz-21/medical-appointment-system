@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
-use App\Models\User;
-
-
-class DoctorController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +14,9 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //Estamos haciendo uso del modelo User que se enecuentra en Models
-        // * Para obtener solo los usuarios que sean doctores y si en dado caso queremos tener más condiciones solo agregaremos where adicionales
-        //  ! Uso de scopes para abreviar las consultas o condiciones. Esto se declara en el modelo
-        $doctors = User::doctors()->get();
-        return view('doctors.index', compact('doctors'));
+        // * Para obtener solo los usuarios que sean pacientes
+        $patients = User::patients()->get();
+        return view ('patients.index', compact('patients'));
     }
 
     /**
@@ -31,7 +27,7 @@ class DoctorController extends Controller
     public function create()
     {
         //
-        return view('doctors.create');
+        return view ('patients.create');
     }
 
     /**

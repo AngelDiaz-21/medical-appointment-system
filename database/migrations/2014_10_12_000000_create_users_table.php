@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            $table->string('dni');
+            // $table->string('dni');
 
             // Le ponemos nullable para que estos campos sean opcionales
             $table->string('address')->nullable();

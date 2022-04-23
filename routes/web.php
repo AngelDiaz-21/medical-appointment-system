@@ -5,6 +5,8 @@
 
 // Este use se utiliza cuando usamos el Route::resource
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ExcelPruebaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +32,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Estas 3 rutas gestionan vistas
 // Esta ruta se va a ocupar para listar las especialidades
 Route::get('/specialties', [App\Http\Controllers\SpecialtyController::class, 'index']); // Esta ruta va devolver una vista de las especialidades
+
 // Esta ruta nos va a devolver un formulario para registrar nuevas especialidades
 Route::get('/specialties/create', [App\Http\Controllers\SpecialtyController::class, 'create']); // Vamos a ver el formulario de registro. Esta peticion la hacemos al visitar la pagina de registro
+
 // Esta ruta nos va a permitir editar una especialidad determinada.
 // Las llaves que se muestran representan a un parametro de rutas, es decir, ahi ira el id de la especialidad que queremos editar y se va atender a traves del metodo edit
 Route::get('/specialties/{specialty}/edit', [App\Http\Controllers\SpecialtyController::class, 'edit']);
@@ -52,9 +56,6 @@ Route::delete('/specialties/{specialty}', [App\Http\Controllers\SpecialtyControl
 // Indicamos nuestra entidade en plural 'doctors' e indicamos el controlador y esto va a generar las multiples rutas (lo que hicimos arriba) que necesitamos para gestionar los datos de una entidad. O sea, va a crear una ruta que permita listar, registrar, editar , rutas put de medicos.
 Route::resource('doctors', DoctorController::class);
                             
-
-
-
-
+Route::resource('patients', PatientController::class);
 
 // Rutas asociadas a los pacientes
