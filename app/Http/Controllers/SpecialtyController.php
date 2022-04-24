@@ -9,8 +9,8 @@ use App\Models\Specialty;
 
 class SpecialtyController extends Controller{
     // Forma de decirle a laravel que esta vista solo sera para usuarios autenticados o iniciado sesión
-// Se agrega un Middleware de autenticacion (se puede aplicar en un constructor de un controlador )
-public function __construct(){
+    // Se agrega un Middleware de autenticacion (se puede aplicar en un constructor de un controlador )
+    public function __construct(){
         // Esto significa que todas las rutas que este controlador resuelva van a exigir al usuario que haya iniciado sesión y si no lo esta lo mando a la vista de login
         $this->middleware('auth');
     }
