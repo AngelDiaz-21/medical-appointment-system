@@ -14,11 +14,11 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct(){
-        // Esto significa que todas las rutas que este controlador resuelva van a exigir al usuario que haya iniciado sesión y si no lo esta lo mando a la vista de login
-        $this->middleware('auth');
-    }
+// ! NOTA: Este middleware ya no se ocupa ya que se esta definiendo desde routes/web.php en la función
+    // public function __construct(){
+    //     // Esto significa que todas las rutas que este controlador resuelva van a exigir al usuario que haya iniciado sesión y si no lo esta lo mando a la vista de login
+    //     $this->middleware('auth');
+    // }
 
 
     private function performValidation( Request $request){

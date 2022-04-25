@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-
-    public function __construct(){
-        $this->middleware('auth');
-    }
+// ! NOTA: Este middleware ya no se ocupa ya que se esta definiendo desde routes/web.php en la función
+    // public function __construct(){
+    //     $this->middleware('auth');
+    // }
 
     private function performValidation (Request $request){
         $rules = [
