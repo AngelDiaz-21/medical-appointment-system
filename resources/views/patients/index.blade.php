@@ -59,5 +59,9 @@
             </tbody>
         </table>
     </div>
+    {{-- Si en dado caso tenemos problemas con mostrar la paginación o nos aparecen iconos muy grandes "revisar el oneNote" con anotaciones de laravel --}}
+    <div class="card-body">
+        {{ $patients->links() }}
+    </div>
 </div>
 @endsection
