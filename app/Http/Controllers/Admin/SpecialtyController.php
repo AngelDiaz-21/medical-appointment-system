@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Admin;
+// ! Añadimos para que la clases que se extiende de controller se pueda usar correctamente desde el namespace
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // Para poder usar la clase Specialty Añadimos una directiva use
 use App\Models\Specialty;

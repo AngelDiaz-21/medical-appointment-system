@@ -1,27 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+// ! Añadimos para que la clases que se extiende de controller se pueda usar correctamente desde el namespace
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
 
-
-class DoctorController extends Controller
+class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 // ! NOTA: Este middleware ya no se ocupa ya que se esta definiendo desde routes/web.php en la función
     // public function __construct(){
-    //     // Esto significa que todas las rutas que este controlador resuelva van a exigir al usuario que haya iniciado sesión y si no lo esta lo mando a la vista de login
     //     $this->middleware('auth');
     // }
 
-
-    private function performValidation( Request $request){
+    private function performValidation (Request $request){
         $rules = [
             'name'    => 'required|min:3',
             // El método email va a verificar que el correo tenga un @ y un dominio
@@ -31,28 +24,21 @@ class DoctorController extends Controller
             'address' => 'nullable|min:5',
             'phone'   => 'nullable|min:6'
         ];
-        // $messages = [
-        //     'name.required'  => 'Es necesario ingresar un nombre.',
-        //     'name.min'       => 'Como minimo el nombre debe tener 3 caracteres.',
-        //     'email.required' => 'Es necesario ingresar el email.',
-        //     'email.email'    => 'Verifique el uso correcto del @ o del dominio. ',
-        //     'dni.digits'     => 'Es necesario ingresar los 8 digitos.',
-        //     'address.min'    => 'Como minimo son 5 caracteres.',
-        //     'phone.min'      => 'Como minimo son 6 caracteres.',
-            
-        // ];
 
-        // $this->validate($request, $rules, $messages);
         $this->validate($request, $rules);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        //Estamos haciendo uso del modelo User que se enecuentra en Models
-        // * Para obtener solo los usuarios que sean doctores y si en dado caso queremos tener más condiciones solo agregaremos where adicionales
-        //  ! Uso de scopes para abreviar las consultas o condiciones. Esto se declara en el modelo
-        $doctors = User::doctors()->get();
-        return view('doctors.index', compact('doctors'));
+        // * Si queremos paginar o mostrar cuantos pacientes queremos mostrar usamos "paginate(numeros_usuarios_a_mostrar_por_pagina)"
+        // ! En este caso estamos mostrando 5 usuarios por pagina pero tambien debemos decidir en donde mostrar las páginas, eso se hace en el index
+        $patients = User::patients()->paginate(5);
+        return view ('patients.index', compact('patients'));
     }
 
     /**
@@ -63,7 +49,7 @@ class DoctorController extends Controller
     public function create()
     {
         //
-        return view('doctors.create');
+        return view ('patients.create');
     }
 
     /**
@@ -84,14 +70,14 @@ class DoctorController extends Controller
         User::create(
             $request->only('name', 'email', 'address', 'phone') 
             + [ 
-                'role' => 'doctor',
+                'role' => 'patient',
                 'password' => bcrypt($request->input('password'))
                 
             ]
         );
 
-        $notification = 'El médico se ha registrado correctamente.';
-        return redirect('/doctors')->with(compact('notification'));
+        $notification = 'El paciente se ha registrado correctamente.';
+        return redirect('/patients')->with(compact('notification'));
     }
 
     /**
@@ -102,7 +88,7 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        //
+    //    
     }
 
     /**
@@ -111,13 +97,9 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( User $patient)
     {
-        // ! La funcion findOrFail lo que hace es buscar un medico que tenga el ID y si no lo encuentra va a devolver un error 404 (o la página no existe)
-        // ! El findOrFail se utiliza ya que en la carpeta routes, en el archivo web.php estamos definiendo este controlador como "Resources"
-        // ! También hacemos uso del scope
-        $doctor = User::doctors()->findOrFail($id);
-        return view ('doctors.edit', compact('doctor'));
+        return view('patients.edit', compact('patient'));
     }
 
     /**
@@ -132,7 +114,7 @@ class DoctorController extends Controller
         $this->performValidation($request);
 
         // * Vamos a obtener una referencia del usuario a partir del ID
-        $user = User::doctors()->findOrFail($id);
+        $user = User::patients()->findOrFail($id);
 
         // Arreglo asociativo llamado data
         $data = $request->only('name', 'email', 'address', 'phone');
@@ -148,8 +130,8 @@ class DoctorController extends Controller
         // Para que se produzca el update del registro
         $user->save();
 
-        $notification = 'La información del médico se ha actualizado correctamente.';
-        return redirect('/doctors')->with(compact('notification'));
+        $notification = 'La información del paciente se ha actualizado correctamente.';
+        return redirect('/patients')->with(compact('notification'));
     }
 
     /**
@@ -158,18 +140,15 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-    // ! También podemos hacer el método destroy recibiendo el id del doctor pero otra forma es que podemos tener el medico en cuestion de acuerdo a lo siguiente
-    public function destroy(User $doctor)
+    public function destroy(User $patient)
     {
-        // Salvamos el nombre del medico antes de eliminarlo para incluir el nombre en un mensaje de notificacion
-        $doctorName = $doctor->name;
+        $patientName = $patient->name;
 
-        $doctor->delete();
+        $patient->delete();
 
         // Podemos poner la variable directamente ya que estamos usando comillas dobles
-        $notification = "El médico $doctorName se ha eliminado correctamente.";
+        $notification = "El médico $patientName se ha eliminado correctamente.";
         // Hacemos la redirección y enviamos la variable notification que estamos definiendo
-        return redirect('/doctors')->with(compact('notification'));
+        return redirect('/patients')->with(compact('notification'));
     }
 }
